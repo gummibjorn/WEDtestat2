@@ -3,6 +3,9 @@ var express = require('express');
 var app = express();
 var Storage = require('./storage.js');
 var storage = new Storage();
+var bodyParser = require('body-parser');
+
+var jsonParser = bodyParser.json()
 
 app.use(express.static('public'));
 
@@ -14,13 +17,12 @@ app.get('/', function(req,res){
   res.end('Hi');
 });
 
-app.put('/links', function(req, res, next){
-  data = {} // TODO get from request body
+app.put('/links', jsonParser, function(req, res, next){
   storage.add({
-    title: data.title,
-    url: data.url,
+    title: req.body.title,
+    url: req.body.url,
     rank: 0,
-    user: data.user,
+    user: req.body.user,
     date: new Date()
   });
   res.writeHead(200, {
