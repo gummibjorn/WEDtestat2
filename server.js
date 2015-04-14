@@ -25,20 +25,34 @@ app.put('/links', jsonParser, function(req, res, next){
     user: req.body.user,
     date: new Date()
   });
-  res.writeHead(200, {
-      'Content-Type' : 'application/json'
-  });
+  res.writeHead(200);
   res.end();
 });
-app.delete('/links/:id', function(req, res, next){});
+
+app.delete('/links/:id', function(req, res, next){
+	storage.delete(req.params.id);	
+        res.writeHead(200);
+	res.end();
+});
+
 app.get('/links', function(req, res, next){
   res.writeHead(200, {
       'Content-Type' : 'application/json'
   });
   res.end(JSON.stringify(storage.links));
 });
-app.post('/links/:id/up', function(req, res, next){});
-app.post('/links/:id/down', function(req, res, next){});
+
+app.post('/links/:id/up', function(req, res, next){
+	storage.links[req.params.id].rank++;
+	res.writeHead(200);
+	res.end();
+});
+
+app.post('/links/:id/down', function(req, res, next){
+	storage.links[req.params.id].rank++;
+	res.writeHead(200);
+	res.end();
+});
 
 var server = app.listen(8000, function(){
   console.log("AAAAND we're up.");
