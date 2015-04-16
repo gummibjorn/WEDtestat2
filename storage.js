@@ -1,14 +1,25 @@
-var Storage = function(){
-  this.links = {};
-  this.linkId = 0;
+var links = {};
+var linkId = 0;
+
+function add(link){
+  links[linkId++] = link;
+};
+
+function remove(id){
+  delete links[id];
+};
+
+function get(id){
+  return links[id];
 }
 
-Storage.prototype.add = function(link){
-  this.links[this.linkId++] = link;
-};
+function getAll(){
+  return links;
+}
 
-Storage.prototype.delete = function(id){
-  delete this.links[id];
-};
-
-module.exports = Storage;
+module.exports = {
+  add: add,
+  remove: remove,
+  get: get,
+  getAll: getAll
+}

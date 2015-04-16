@@ -1,8 +1,7 @@
 "use strict";
 var express = require('express');
 var app = express();
-var Storage = require('./storage.js');
-var storage = new Storage();
+var storage = require('./storage.js');
 var bodyParser = require('body-parser');
 
 var jsonParser = bodyParser.json()
@@ -30,7 +29,7 @@ app.put('/links', jsonParser, function(req, res, next){
 });
 
 app.delete('/links/:id', function(req, res, next){
-	storage.delete(req.params.id);	
+	storage.remove(req.params.id);
         res.writeHead(200);
 	res.end();
 });
@@ -39,17 +38,17 @@ app.get('/links', function(req, res, next){
   res.writeHead(200, {
       'Content-Type' : 'application/json'
   });
-  res.end(JSON.stringify(storage.links));
+  res.end(JSON.stringify(storage.getAll()));
 });
 
 app.post('/links/:id/up', function(req, res, next){
-	storage.links[req.params.id].rank++;
+	storage.get(req.params.id).rank++;
 	res.writeHead(200);
 	res.end();
 });
 
 app.post('/links/:id/down', function(req, res, next){
-	storage.links[req.params.id].rank++;
+	storage.get(req.params.id).rank++;
 	res.writeHead(200);
 	res.end();
 });
