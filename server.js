@@ -48,7 +48,7 @@ app.post('/links/:id/up', function(req, res, next){
 });
 
 app.post('/links/:id/down', function(req, res, next){
-	storage.get(req.params.id).rank++;
+	storage.get(req.params.id).rank--;
 	res.writeHead(200);
 	res.end();
 });
