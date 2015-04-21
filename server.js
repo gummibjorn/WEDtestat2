@@ -1,13 +1,16 @@
 "use strict";
 var express = require('express');
+var routes = require('./routes')
 var app = express();
 var storage = require('./storage.js');
 var bodyParser = require('body-parser');
-
 var jsonParser = bodyParser.json()
 
 app.use(express.static('public'));
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
 
+app.get('/LinkIt', routes.index);
 
 app.get('/', function(req,res){
   res.writeHead(200, {
@@ -40,6 +43,7 @@ app.get('/links', function(req, res, next){
   });
   res.end(JSON.stringify(storage.getAll()));
 });
+
 
 app.post('/links/:id/up', function(req, res, next){
 	storage.get(req.params.id).rank++;

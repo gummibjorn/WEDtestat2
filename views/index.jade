@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    h1= title
+    table
+        thead
+            tr
+                th(class='dataColumn') Title
+                th(class='dataColumn') Rank
+                th(class='dataColumn') User
+                th(class='dataColumn') Date
+                th
+        tbody
+            - var i=0
+            each link in links
+                - i++
+                tr(id=('id_' + i))
+                    td #{link.title}
+                    td
+                        input(value=(link.rank),class='inputField')
+                    td
+                        input(value=(link.user),class='inputField')
+                    td
+                        input(value=(link.date),class='inputField')
