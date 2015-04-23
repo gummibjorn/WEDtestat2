@@ -2,15 +2,21 @@ extends layout
 
 block content
     script(type="text/x-handlebars-template" id="templateLink").
-        <tr id="{{id}}">
-            <td>
-                <a href="{{url}}">{{title}}</a>
-            </td>
-            <td>{{rank}}</td>
-            <td>{{user}}</td>
-            <td>{{date}}</td>
-        <tr>
-
+        <div id="{{id}}">
+            <div class="rank">
+                <div class="upvote">^</div>
+                <div class="score">{{rank}}</div>
+                <div class="downvote">v</div>
+            </div>
+            <div class="content">
+                <div class="title">
+                    <a href="{{url}}">{{title}}</a>
+                </div>
+                <div class="info">
+                    {{date}} by {{user}}
+                </div>
+            </div>
+        </div>
     h1= title
     div
         p
@@ -19,12 +25,7 @@ block content
             input(name='title', placeholder='Title')
             input(name='submit' type='button', value='Post!')
             input(name='user', placeholder='Username (temp)')
+    div#content.
+      Nothing here.
 
-    table
-        thead
-            tr
-                th(class='dataColumn') Title
-                th(class='dataColumn') Rank
-                th(class='dataColumn') User
-                th(class='dataColumn') Date
-        tbody
+

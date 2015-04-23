@@ -6,7 +6,7 @@
   $(document).ready(function(){
     console.log("HELLO MY FRIENDS");
     linkTemplate = Handlebars.compile($('#templateLink').html());
-    content = $('tbody');
+    content = $('#content');
     refresh();
 
     $('input[name="submit"]').click(function(){

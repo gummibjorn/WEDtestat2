@@ -1,0 +1,25 @@
+.rank, .content{
+  float: left;
+  padding: .5rem;
+}
+
+.rank{
+  width: 3rem;
+  text-align:center;
+}
+
+.title{
+    font-size: 1.3rem;
+}
+
+.title a{
+    text-decoration: none;
+}
+
+.upvote, .downvote{
+    cursor: pointer;
+}
+
+#content > div{
+    clear: both;
+}
