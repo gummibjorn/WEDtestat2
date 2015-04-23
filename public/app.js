@@ -11,7 +11,7 @@
   });
 
   function postLink(title, url){
-    var user = "temp_test_person"; //the username should be known on the server, don't send it!
+    var user = $('input[name="user"]').val() || "anonymous";
     $.ajax('/links', {
       type: 'PUT',
       contentType: 'application/json',
