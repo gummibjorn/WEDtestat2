@@ -9,16 +9,13 @@ block content
                 th(class='dataColumn') Rank
                 th(class='dataColumn') User
                 th(class='dataColumn') Date
-                th
         tbody
             - var i=0
             each link in links
                 - i++
                 tr(id=('id_' + i))
                     td #{link.title}
-                    td
-                        input(value=(link.rank),class='inputField')
-                    td
-                        input(value=(link.user),class='inputField')
-                    td
-                        input(value=(link.date),class='inputField')
+                    td #{link.rank}
+                    td #{link.user}
+                    td #{link.date}
+
