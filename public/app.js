@@ -1,7 +1,11 @@
 (function($){
   "use strict";
+
+  var linkTemplate;
   $(document).ready(function(){
     console.log("HELLO MY FRIENDS");
+    linkTemplate = Handlebars.compile($('#templateLink').html());
+
     $('input[name="submit"]').click(function(){
       console.log("Posting link");
       var url = $('input[name="url"]').val();
@@ -20,9 +24,9 @@
         url: url,
         user: user
       }),
-      success: function(){
+      success: function(data){
         console.log("YES!");
-        //TODO: relaod page?
+        $('tbody').append(linkTemplate(JSON.parse(data)));
       },
       error: function(){
         console.log("NOES!");

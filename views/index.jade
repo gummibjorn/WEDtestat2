@@ -1,6 +1,16 @@
 extends layout
 
 block content
+    script(type="text/x-handlebars-template" id="templateLink").
+        <tr id="{{id}}">
+            <td>
+                <a href="{{url}}">{{title}}</a>
+            </td>
+            <td>{{rank}}</td>
+            <td>{{user}}</td>
+            <td>{{date}}</td>
+        <tr>
+
     h1= title
     div
         p
