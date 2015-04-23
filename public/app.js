@@ -52,5 +52,9 @@
         setTimeout(refresh, 2000);
       }
     });
-  }
+
+  Handlebars.registerHelper("formatDate", function(datetime) {
+    //TODO: this only works in new chrome/ff, add a backwards compatible solution
+    return new Date(datetime).toLocaleString("de-CH", {timeZone: "Europe/Zurich"});
+  }); }
 })(jQuery);
