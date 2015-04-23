@@ -2,9 +2,12 @@
   "use strict";
 
   var linkTemplate;
+  var content;
   $(document).ready(function(){
     console.log("HELLO MY FRIENDS");
     linkTemplate = Handlebars.compile($('#templateLink').html());
+    content = $('tbody');
+    refresh();
 
     $('input[name="submit"]').click(function(){
       console.log("Posting link");
@@ -31,6 +34,22 @@
       error: function(){
         console.log("NOES!");
         //TODO: display error
+      }
+    });
+  }
+
+  function refresh(){
+    $.ajax('/links', {
+      success: function(data){
+        console.log("refreshed!");
+        var html = "";
+        $.each(data, function(key, val){
+          val.id = key;
+          html += linkTemplate(val);
+        });
+        //console.log(html);
+        content.html(html);
+        setTimeout(refresh, 2000);
       }
     });
   }
