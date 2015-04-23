@@ -24,7 +24,7 @@ app.put('/links', jsonParser, function(req, res, next){
     title: req.body.title,
     url: req.body.url,
     rank: 0,
-    user: req.body.user,
+    user: req.body.user, //FIXME: don't get this from the request, but from the user authentication
     date: new Date()
   });
   res.writeHead(200);
@@ -56,6 +56,37 @@ app.post('/links/:id/down', function(req, res, next){
 	res.writeHead(200);
 	res.end();
 });
+
+//temp demo data
+storage.add({
+  title: "In our house, CAT boops YOU",
+  url: "http://i.imgur.com/RgBHlbG.gifv",
+  rank: 146,
+  user: 'tourn',
+  date: new Date()
+});
+storage.add({
+  title: "Cat saloon",
+  url: "http://i.imgur.com/RYpsy6X.gif",
+  rank: 10,
+  user: 'hans',
+  date: new Date()
+});
+storage.add({
+  title: "Acatin's Creed",
+  url: "http://i.imgur.com/oMmQ0ue.gifv",
+  rank: 44,
+  user: 'tourn',
+  date: new Date()
+});
+storage.add({
+  title: "Broken link without http",
+  url: "trq.ch",
+  rank: -12,
+  user: 'tourn',
+  date: new Date()
+});
+
 
 var server = app.listen(8000, function(){
   console.log("AAAAND we're up.");
