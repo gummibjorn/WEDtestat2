@@ -21,20 +21,9 @@ block content
             each link in links
                 - i++
                 tr(id=('id_' + i))
-<<<<<<< HEAD
-                    td #{link.title}
-                    td #{link.rank}
-                    td #{link.user}
-                    td #{link.date}
-
-=======
                     td
                         a(href="#{link.url}").
                             #{link.title}
-                    td
-                        input(value=(link.rank),class='inputField')
-                    td
-                        input(value=(link.user),class='inputField')
-                    td
-                        input(value=(link.date),class='inputField')
->>>>>>> 3d1e9fc16534591fc47f1b835ecf489031510151
+                    td #{link.rank}
+                    td #{link.user}
+                    td #{link.date}
