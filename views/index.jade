@@ -2,6 +2,13 @@ extends layout
 
 block content
     h1= title
+    div
+        p
+            | new link
+            input(name='url', placeholder='URL')
+            input(name='title', placeholder='Title')
+            input(name='submit' type='button', value='Post!')
+
     table
         thead
             tr
@@ -15,7 +22,9 @@ block content
             each link in links
                 - i++
                 tr(id=('id_' + i))
-                    td #{link.title}
+                    td
+                        a(href="#{link.url}").
+                            #{link.title}
                     td
                         input(value=(link.rank),class='inputField')
                     td

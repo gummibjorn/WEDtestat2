@@ -24,7 +24,7 @@ app.put('/links', jsonParser, function(req, res, next){
     title: req.body.title,
     url: req.body.url,
     rank: 0,
-    user: req.body.user,
+    user: req.body.user, //FIXME: don't get this from the request, but from the user authentication
     date: new Date()
   });
   res.writeHead(200);
