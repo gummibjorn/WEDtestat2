@@ -17,14 +17,4 @@ block content
                 th(class='dataColumn') Rank
                 th(class='dataColumn') User
                 th(class='dataColumn') Date
-        tbody
-            - var i=0
-            each link in links
-                - i++
-                tr(id=('id_' + i))
-                    td
-                        a(href="#{link.url}").
-                            #{link.title}
-                    td #{link.rank}
-                    td #{link.user}
-                    td #{link.date}
+        tbody(id='linklist')

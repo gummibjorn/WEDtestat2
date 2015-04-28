@@ -1,7 +1,7 @@
 (function($){
   "use strict";
   $(document).ready(function(){
-    console.log("HELLO MY FRIENDS");
+    window.setInterval(function() { getData(); }, 2000);
     $('input[name="submit"]').click(function(){
       console.log("Posting link");
       var url = $('input[name="url"]').val();
@@ -29,5 +29,17 @@
         //TODO: display error
       }
     });
+  }
+  
+  function getData(){
+  var templateSource = $("#template").html();
+  var template = Handlebars.compile(templateSource);
+  var resultsPlaceholder = $("#linklist");
+	$.ajax('links', {
+		type: 'GET',
+		success: function(response){
+			resultsPlaceholder.html(template(response));
+		}
+	});
   }
 })(jQuery);
