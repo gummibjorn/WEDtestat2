@@ -1,11 +1,13 @@
 "use strict";
 var express = require('express');
-var routes = require('./routes')
+var session = require('express-session');
+var routes = require('./routes');
 var app = express();
 var storage = require('./storage.js');
 var bodyParser = require('body-parser');
-var jsonParser = bodyParser.json()
+var jsonParser = bodyParser.json();
 
+app.use(session({secret: '1234567890QWERTY', saveUninitialized:false, resave:false, cookie: { maxAge: 60000}}));
 app.use(express.static('public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
@@ -63,14 +65,29 @@ app.post('/links/:id/down', function(req, res, next){
 
 app.get('/login', function(req, res, next){
   res.writeHead(200, {
-  'Content-Type' : 'application/json'
+    'Content-Type' : 'application/json'
   });
-  res.end();
+  var user = req.session.user || null;
+  res.end(JSON.stringify(user));
 });
 
-app.post('/login', function(req, res, next){
-	res.writeHead(200);
-	res.end();
+app.post('/login', jsonParser, function(req, res, next){
+  var user = req.body.user;
+  if(user){
+    req.session.user = user;
+    res.writeHead(200);
+    res.end();
+  } else {
+    res.writeHead(400);
+    res.end();
+    //TODO error message
+  }
+});
+
+app.delete('/login', function(req, res, next){
+  req.session.user = null;
+  res.writeHead(200);
+  res.end();
 });
 
 //temp demo data
