@@ -1,6 +1,7 @@
 (function($){
   "use strict";
   $(document).ready(function(){
+    getData();
     window.setInterval(function() { getData(); }, 2000);
     $('input[name="submit"]').click(function(){
       console.log("Posting link");

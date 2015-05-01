@@ -40,12 +40,11 @@ app.delete('/links/:id', function(req, res, next){
 });
 
 app.get('/links', function(req, res, next){
-  res.writeHead(200, {
-      'Content-Type' : 'application/json'
-  });
-  res.end(JSON.stringify(storage.getAll()));
+res.writeHead(200, {
+'Content-Type' : 'application/json'
 });
-
+res.end(JSON.stringify(storage.getAll()));
+});
 
 app.post('/links/:id/up', function(req, res, next){
 	storage.get(req.params.id).rank++;
@@ -55,6 +54,20 @@ app.post('/links/:id/up', function(req, res, next){
 
 app.post('/links/:id/down', function(req, res, next){
 	storage.get(req.params.id).rank--;
+	res.writeHead(200);
+	res.end();
+});
+
+//User handling
+
+app.get('/login', function(req, res, next){
+res.writeHead(200, {
+'Content-Type' : 'application/json'
+});
+res.end();
+});
+
+app.post('/login', function(req, res, next){
 	res.writeHead(200);
 	res.end();
 });
