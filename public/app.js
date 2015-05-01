@@ -9,12 +9,22 @@
     content = $('#content');
     refresh();
 
-    $('input[name="submit"]').click(function(){
+    $('#linkform').submit(function(){
+      var url = $('input[name="url"]').val();
+      $('input[name="url"]').val('');
+      var title = $('input[name="title"]').val();
+      $('input[name="title"]').val('');
+      postLink(title, url);
+      return false;
+    });
+    
+
+    /*$('input[name="submit"]').click(function(){
       console.log("Posting link");
       var url = $('input[name="url"]').val();
       var title = $('input[name="title"]').val();
       postLink(title, url);
-    });
+    });*/
   });
 
   function postLink(title, url){

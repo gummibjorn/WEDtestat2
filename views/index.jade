@@ -19,12 +19,12 @@ block content
         </div>
     h1= title
     div
-        p
-            | new link
-            input(name='url', placeholder='URL')
-            input(name='title', placeholder='Title')
-            input(name='submit' type='button', value='Post!')
-            input(name='user', placeholder='Username (temp)')
+            form(id='linkform')
+              | new link
+              input(name='url', placeholder='URL' type='url' required)
+              input(name='title', placeholder='Title')
+              input(name='submit' type='submit', value='Post!')
+              input(name='user', placeholder='Username (temp)')
     div#content.
       Nothing here.
 
