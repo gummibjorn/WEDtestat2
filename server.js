@@ -24,7 +24,7 @@ var requireLogin = function(req, res, next){
 app.get('/LinkIt', routes.index);
 app.get('/', routes.index);
 
-app.put('/links', jsonParser, function(req, res, next){   
+app.put('/links', requireLogin, jsonParser, function(req, res, next){   
   var regex = new RegExp("https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}");
   if(req.body.url.match(regex)){
     var link = {
