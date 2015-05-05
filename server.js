@@ -46,11 +46,17 @@ app.put('/links', requireLogin, jsonParser, function(req, res, next){
 });
 
 app.delete('/links/:id', function(req, res, next){
-  //TODO verify user
-	storage.remove(req.params.id);
+  if(req.session.user == storage.get(req.params.id).user){
+    storage.remove(req.params.id);
         res.writeHead(200);
-	res.end();
-});
+  	res.end();
+  }else{
+    res.writeHead(401, {
+      'Content-Type' : 'text/plain'
+    });
+    res.end('not allowed to delete this item');
+  }
+	});
 
 app.get('/links', function(req, res, next){
   res.writeHead(200, {
