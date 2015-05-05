@@ -21,18 +21,25 @@ app.get('/', function(req,res){
   res.end('Hi');
 });
 
-app.put('/links', jsonParser, function(req, res, next){
-  var link = {
-    title: req.body.title,
-    url: req.body.url,
-    rank: 0,
-    user: req.body.user, //FIXME: don't get this from the request, but from the user authentication
-    date: new Date()
-  };
-  //TODO: error validation: invalid url, empty title (send back 400 code and error message then)
-  storage.add(link);
-  res.writeHead(200);
-  res.end(JSON.stringify(link));
+app.put('/links', jsonParser, function(req, res, next){   
+  var regex = new RegExp("https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}");
+  if(req.body.url.match(regex)){
+    var link = {
+      title: req.body.title,
+      url: req.body.url,
+      rank: 0,
+      user: req.body.user, //FIXME: don't get this from the request, but from the user authentication
+      date: new Date()
+    };
+    storage.add(link);
+    res.writeHead(200);
+    res.end(JSON.stringify(link));
+  }else{
+    res.writeHead(400, {
+      'Content-Type' : 'text/plain'
+    });
+    res.end('wrong URL');
+  }
 });
 
 app.delete('/links/:id', function(req, res, next){
