@@ -12,14 +12,17 @@ app.use(express.static('public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
-app.get('/LinkIt', routes.index);
+var requireLogin = function(req, res, next){
+  if(req.session.user){
+    next();
+  } else {
+    res.writeHead(403);
+    res.end();
+  }
+};
 
-app.get('/', function(req,res){
-  res.writeHead(200, {
-      'Content-Type' : 'text/plain'
-  });
-  res.end('Hi');
-});
+app.get('/LinkIt', routes.index);
+app.get('/', routes.index);
 
 app.put('/links', jsonParser, function(req, res, next){   
   var regex = new RegExp("https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}");
@@ -28,7 +31,7 @@ app.put('/links', jsonParser, function(req, res, next){
       title: req.body.title,
       url: req.body.url,
       rank: 0,
-      user: req.body.user, //FIXME: don't get this from the request, but from the user authentication
+      user: req.session.user, 
       date: new Date()
     };
     storage.add(link);
@@ -43,6 +46,7 @@ app.put('/links', jsonParser, function(req, res, next){
 });
 
 app.delete('/links/:id', function(req, res, next){
+  //TODO verify user
 	storage.remove(req.params.id);
         res.writeHead(200);
 	res.end();
@@ -56,20 +60,19 @@ app.get('/links', function(req, res, next){
 });
 
 
-app.post('/links/:id/up', function(req, res, next){
+app.post('/links/:id/up', requireLogin, function(req, res, next){
 	storage.get(req.params.id).rank++;
 	res.writeHead(200);
 	res.end();
 });
 
-app.post('/links/:id/down', function(req, res, next){
+app.post('/links/:id/down', requireLogin, function(req, res, next){
 	storage.get(req.params.id).rank--;
 	res.writeHead(200);
 	res.end();
 });
 
-//User handling
-
+//Login handling
 app.get('/login', function(req, res, next){
   res.writeHead(200, {
     'Content-Type' : 'application/json'
