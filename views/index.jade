@@ -1,33 +1,37 @@
 extends layout
 
 block content
-    script(type="text/x-handlebars-template" id="templateLink").
-        <div id="{{id}}" class="entry">
-            <div class="rank">
-                <div class="upvote">^</div>
-                <div class="score">{{rank}}</div>
-                <div class="downvote">v</div>
-            </div>
-            <div class="content">
-                <div class="title">
-                    <a href="{{url}}">{{title}}</a>
-                </div>
-                <div class="info">
-                    {{formatDate date}} by {{user}}
-                </div>
-            </div>
+  script(type="text/x-handlebars-template" id="templateLink").
+    <div id="{{id}}" class="entry">
+      <div class="rank">
+        <div class="upvote">^</div>
+        <div class="score">{{rank}}</div>
+        <div class="downvote">v</div>
+      </div>
+      <div class="content">
+        <div class="title">
+          <a href="{{url}}">{{title}}</a>
         </div>
-    h1= title
-    div#newlinkDiv
-            form(id='linkform')
-              | new link
-              input(name='url', placeholder='URL', type='url' required)
-              input(name='title', placeholder='Title')
-              input(name='submit' type='submit', value='Post!')
-    div#loginDiv
-            input(name='login', placeholder='Name')
-            input(name='login', value='Login', type='submit') 
-    div#content.
-      Nothing here.
+        <div class="info">
+          {{formatDate date}} by {{user}}
+        </div>
+      </div>
+    </div>
+  h1= title
+  div.user
+    div.login(class=user ? "hidden" : undefined)
+      input(name='user', placeholder='Username')
+      input(name='login' type='submit', value='Login!')
+    div.logout(class=user ? undefined : "hidden")
+      span.username= user
+      input(name='logout' type='submit', value='Logout!')
+  div
+    form(id='linkform')
+      | new link
+      input(name='url', placeholder='URL' type='url' required)
+      input(name='title', placeholder='Title')
+      input(name='submit' type='submit', value='Post!')
+  div#content.
+    Nothing here.
 
 

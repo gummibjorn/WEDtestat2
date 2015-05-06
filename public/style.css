@@ -24,10 +24,10 @@
     clear: both;
 }
 
-#loginDiv {
-    float:right;
+.user{
+  float: right;
 }
 
-#newlinkDiv {
-    float:left;
+.hidden{
+  display: none;
 }
