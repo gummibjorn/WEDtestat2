@@ -48,7 +48,6 @@
         }
       });
     });
-
   });
 
   function toggleLoginUI(){
@@ -89,9 +88,22 @@
         //console.log(html);
         content.html(html);
         registerVotes();
+        registerDelete(); 
         setTimeout(refresh, 2000);
       }
     });
+  }
+
+  function registerDelete(){
+    $('.delete').click(function(){
+        var that = $(this);
+        $.ajax('/links/'+ $(this).parents('.entry').attr('id'), {
+          type: 'DELETE',
+          success: function(){
+              that.parents('.entry').remove();
+          }  
+        });
+      });
   }
 
   function registerVotes(){
