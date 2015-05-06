@@ -18,13 +18,15 @@ block content
             </div>
         </div>
     h1= title
-    div
+    div#newlinkDiv
             form(id='linkform')
               | new link
-              input(name='url', placeholder='URL' type='url' required)
+              input(name='url', placeholder='URL', type='url' required)
               input(name='title', placeholder='Title')
               input(name='submit' type='submit', value='Post!')
-              input(name='user', placeholder='Username (temp)')
+    div#loginDiv
+            input(name='login', placeholder='Name')
+            input(name='login', value='Login', type='submit') 
     div#content.
       Nothing here.
 

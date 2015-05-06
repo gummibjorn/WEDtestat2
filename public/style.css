@@ -23,3 +23,11 @@
 #content > div{
     clear: both;
 }
+
+#loginDiv {
+    float:right;
+}
+
+#newlinkDiv {
+    float:left;
+}

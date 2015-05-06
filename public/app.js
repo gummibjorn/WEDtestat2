@@ -4,7 +4,6 @@
   var linkTemplate;
   var content;
   $(document).ready(function(){
-    console.log("HELLO MY FRIENDS");
     linkTemplate = Handlebars.compile($('#templateLink').html());
     content = $('#content');
     refresh();
@@ -18,6 +17,7 @@
       return false;
     });
     
+    $ 
 
     /*$('input[name="submit"]').click(function(){
       console.log("Posting link");
@@ -38,7 +38,6 @@
         user: user
       }),
       success: function(data){
-        console.log("YES!");
         $('tbody').append(linkTemplate(JSON.parse(data)));
       },
       error: function(){

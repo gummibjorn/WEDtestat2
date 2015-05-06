@@ -45,7 +45,7 @@ app.put('/links', requireLogin, jsonParser, function(req, res, next){
   }
 });
 
-app.delete('/links/:id', function(req, res, next){
+app.delete('/links/:id', requireLogin, function(req, res, next){
   if(req.session.user == storage.get(req.params.id).user){
     storage.remove(req.params.id);
         res.writeHead(200);
@@ -100,7 +100,7 @@ app.post('/login', jsonParser, function(req, res, next){
   }
 });
 
-app.delete('/login', function(req, res, next){
+app.delete('/login', requireLogin, function(req, res, next){
   req.session.user = null;
   res.writeHead(200);
   res.end();
