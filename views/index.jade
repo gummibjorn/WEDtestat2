@@ -15,6 +15,9 @@ block content
         <div class="info">
           {{formatDate date}} by {{user}}
         </div>
+        {{#if deletable}}
+          <input type='button' name='delete' value='Delete!'/>
+        {{/if}}
       </div>
     </div>
   h1= title
@@ -26,7 +29,7 @@ block content
       span.username= user
       input(name='logout' type='submit', value='Logout!')
   div
-    form(id='linkform')
+    form(id='linkform', class=user ? undefined : "hidden")
       | new link
       input(name='url', placeholder='URL' type='url' required)
       input(name='title', placeholder='Title')

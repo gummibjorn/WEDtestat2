@@ -16,26 +16,54 @@
       postLink(title, url);
       return false;
     });
-    
-    $ 
 
-    /*$('input[name="submit"]').click(function(){
-      console.log("Posting link");
-      var url = $('input[name="url"]').val();
-      var title = $('input[name="title"]').val();
-      postLink(title, url);
-    });*/
+    $('.login input[type="submit"]').click(function(){
+      var $username = $(this).prev();
+      $.ajax('/login', {
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ user: $username.val() }),
+        success: function(){
+          toggleLoginUI();
+          $('.logout .username').html($username.val());
+          $username.val('');
+        },
+        error: function(){
+          console.log("Login failed");
+        }
+      });
+
+    });
+
+    $('.logout input').click(function(){
+      $.ajax('/login', {
+        type: 'DELETE',
+        contentType: 'application/json',
+        success: function(){
+          toggleLoginUI();
+          $('.logout .username').html('');
+        },
+        error: function(){
+          console.log("Logout failed");
+        }
+      });
+    });
+
   });
 
+  function toggleLoginUI(){
+    $('.login').toggleClass('hidden');
+    $('.logout').toggleClass('hidden');
+    $('#linkform').toggleClass('hidden');
+  }
+
   function postLink(title, url){
-    var user = $('input[name="user"]').val() || "anonymous";
     $.ajax('/links', {
       type: 'PUT',
       contentType: 'application/json',
       data: JSON.stringify({
         title: title,
         url: url,
-        user: user
       }),
       success: function(data){
         $('tbody').append(linkTemplate(JSON.parse(data)));
@@ -48,13 +76,15 @@
   }
 
   function refresh(){
+    var user = $('.user .username').html();
     $.ajax('/links', {
       success: function(data){
         console.log("refreshed!");
         var html = "";
-        $.each(data, function(key, val){
-          val.id = key;
-          html += linkTemplate(val);
+        $.each(data, function(key, link){
+          link.id = key;
+          link.deletable = (link.user === user);
+          html += linkTemplate(link);
         });
         //console.log(html);
         content.html(html);
