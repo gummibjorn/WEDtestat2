@@ -85,9 +85,8 @@
           link.deletable = (link.user === user);
           html += linkTemplate(link);
         });
-        //console.log(html);
         content.html(html);
-        registerVotes();
+        registerVotes(user);
         registerDelete(); 
         setTimeout(refresh, 2000);
       }
@@ -106,27 +105,20 @@
       });
   }
 
-  function registerVotes(){
-    /*
-    $('.upvote').each(function(){
-      $(this).click(function(){
-        var id = $(this).parent('div').parent('div').attr('id');
-        console.log("Upvote " + id);
+  function registerVotes(user){
+    //Only register them if a user is logged in 
+    if(user){
+      content.children("div").each(function(){
+        var that = $(this);
+        var id = that.attr('id');
+        that.find(".upvote").click(function(){
+          vote(id, "up");
+        });
+        that.find(".downvote").click(function(){
+          vote(id, "down");
+        });
       });
-    });
-    */
-
-    content.children("div").each(function(){
-      var that = $(this);
-      var id = that.attr('id');
-      that.find(".upvote").click(function(){
-        vote(id, "up");
-      });
-      that.find(".downvote").click(function(){
-        vote(id, "down");
-      });
-    });
-
+    }
   }
 
   function vote(id, dir){
