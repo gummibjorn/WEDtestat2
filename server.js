@@ -2,6 +2,8 @@
 var express = require('express');
 var session = require('express-session');
 var routes = require('./routes');
+var links = require('./routes/links');
+var login = require('./routes/login');
 var app = express();
 var storage = require('./storage.js');
 var bodyParser = require('body-parser');
@@ -24,87 +26,23 @@ var requireLogin = function(req, res, next){
 app.get('/LinkIt', routes.index);
 app.get('/', routes.index);
 
-app.put('/links', requireLogin, jsonParser, function(req, res, next){   
-  var regex = new RegExp("https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}");
-  if(req.body.url.match(regex)){
-    var link = {
-      title: req.body.title,
-      url: req.body.url,
-      rank: 0,
-      user: req.session.user, 
-      date: new Date()
-    };
-    storage.add(link);
-    res.writeHead(200);
-    res.end(JSON.stringify(link));
-  }else{
-    res.writeHead(400, {
-      'Content-Type' : 'text/plain'
-    });
-    res.end('wrong URL');
-  }
-});
+app.put('/links', requireLogin, jsonParser, links.putlinks);
 
-app.delete('/links/:id', requireLogin, function(req, res, next){
-  if(req.session.user == storage.get(req.params.id).user){
-    storage.remove(req.params.id);
-        res.writeHead(200);
-  	res.end();
-  }else{
-    res.writeHead(401, {
-      'Content-Type' : 'text/plain'
-    });
-    res.end('not allowed to delete this item');
-  }
-	});
+app.delete('/links/:id', requireLogin, links.delete);
 
-app.get('/links', function(req, res, next){
-  res.writeHead(200, {
-      'Content-Type' : 'application/json'
-  });
-  res.end(JSON.stringify(storage.getAll()));
-});
+app.get('/links', links.getlinks);
 
 
-app.post('/links/:id/up', requireLogin, function(req, res, next){
-	storage.get(req.params.id).rank++;
-	res.writeHead(200);
-	res.end();
-});
+app.post('/links/:id/up', requireLogin, links.upvote);
 
-app.post('/links/:id/down', requireLogin, function(req, res, next){
-	storage.get(req.params.id).rank--;
-	res.writeHead(200);
-	res.end();
-});
+app.post('/links/:id/down', requireLogin, links.downvote);
 
 //Login handling
-app.get('/login', function(req, res, next){
-  res.writeHead(200, {
-    'Content-Type' : 'application/json'
-  });
-  var user = req.session.user || null;
-  res.end(JSON.stringify(user));
-});
+app.get('/login', login.getuser);
 
-app.post('/login', jsonParser, function(req, res, next){
-  var user = req.body.user;
-  if(user){
-    req.session.user = user;
-    res.writeHead(200);
-    res.end();
-  } else {
-    res.writeHead(400);
-    res.end();
-    //TODO error message
-  }
-});
+app.post('/login', jsonParser, login.userlogin);
 
-app.delete('/login', requireLogin, function(req, res, next){
-  req.session.user = null;
-  res.writeHead(200);
-  res.end();
-});
+app.delete('/login', requireLogin, login.userlogout );
 
 //temp demo data
 storage.add({

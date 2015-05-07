@@ -6,3 +6,4 @@ exports.index = function(req, res){
   var title = titles[Math.floor(Math.random()*titles.length)];
   res.render('index', { title: title, user: req.session.user });
 };
+
