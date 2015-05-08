@@ -1,7 +1,12 @@
-var session = require('express-session');
 var storage = require('../storage.js');
+var middleware = require('../middleware.js');
+var requireLogin = middleware.requireLogin;
+var bodyParser = require('body-parser');
+var jsonParser = bodyParser.json();
+var express = require('express');
+var links = express.Router();
 
-exports.putlinks = function(req, res, next){   
+links.put('/', requireLogin, jsonParser, function(req, res, next){   
   var regex = new RegExp("https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}");
   if(req.body.url.match(regex)){
     var link = {
@@ -20,9 +25,9 @@ exports.putlinks = function(req, res, next){
     });
     res.end('wrong URL');
   }
-};
+});
 
-exports.delete = function(req, res, next){
+links.delete('/:id', requireLogin, function(req, res, next){
   if(req.session.user == storage.get(req.params.id).user){
     storage.remove(req.params.id);
         res.writeHead(200);
@@ -33,23 +38,25 @@ exports.delete = function(req, res, next){
     });
     res.end('not allowed to delete this item');
   }
-};
+});
 
-exports.getlinks = function(req, res, next){
+links.get('/', function(req, res, next){
   res.writeHead(200, {
       'Content-Type' : 'application/json'
   });
   res.end(JSON.stringify(storage.getAll()));
-};
+});
 
-exports.upvote = function(req, res, next){
+links.post('/:id/up', requireLogin, function(req, res, next){
 	storage.get(req.params.id).rank++;
 	res.writeHead(200);
 	res.end();
-};
+});
 
-exports.downvote = function(req, res, next){
+links.post('/:id/down', requireLogin, function(req, res, next){
 	storage.get(req.params.id).rank--;
 	res.writeHead(200);
 	res.end();
-};
+});
+
+module.exports = links;
