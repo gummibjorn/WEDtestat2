@@ -23,7 +23,8 @@ block content
   h1= title
   div.user
     div.login(class=user ? "hidden" : undefined)
-      input(name='user', placeholder='Username')
+      label(for='i-user') Username
+      input#i-user(name='user', placeholder='Username')
       input(name='login' type='submit', value='Login!')
     div.logout(class=user ? undefined : "hidden")
       span.username= user
@@ -31,8 +32,10 @@ block content
   div
     form(id='linkform', class=user ? undefined : "hidden")
       | new link
-      input(name='url', placeholder='URL' type='url' required)
-      input(name='title', placeholder='Title')
+      label(for='i-url') URL
+      input#i-url(name='url', placeholder='URL' type='url' required)
+      label(for='i-title') Title
+      input#i-title(name='title', placeholder='Title')
       input(name='submit' type='submit', value='Post!')
   div#content.
     Nothing here.
